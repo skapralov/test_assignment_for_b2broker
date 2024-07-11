@@ -1,0 +1,31 @@
+services:
+
+  app:
+    container_name: b2broker_api
+    build:
+      context: ./
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    networks:
+      - b2broker_net
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    container_name: b2broker_db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=b2broker
+    volumes:
+      - ./db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - b2broker_net
+
+networks:
+  b2broker_net:
